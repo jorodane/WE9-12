@@ -123,6 +123,42 @@ int main()
 					};
 				};
 			};
+
+			//이 위쪽은 접속 관리하는 리슨 소켓 내용이었구요
+			//아래에서는 다른 일반 유저들을 관리하는 부분이 필요할 거에요!
+			for (int i = 1; i < MAX_USER_NUMBER; i++)
+			{
+				//대상이 전달해준 반응
+				switch (pollFDArray[i].revents)
+				{
+				//반응 없음!
+				case 0: break;
+
+				//반응 있음!
+				case POLLIN:
+					//무슨 반응이었는지를 확인해봐야겠죠!
+					//                         읽기 버퍼            연결 해제 요청!
+					if (read(pollFDArray[i].fd, buffRecv, MAX_BUFFER_SIZE) < 1)
+					{
+						//꺼달라는데 뭐 ㅎ
+						EndFD(&pollFDArray[i]);
+						break;
+					};
+
+					//꺼달라고 하는 게 아니고 다른 걸 부탁했을 때 여기에서 메시지를 처리할 필요가 있구요!
+
+					//입력 버퍼 초기화!
+					memset(buffRecv, 0, sizeof(buffRecv));
+					//입력 해결해줬으니까 더 내용이 없다!
+					pollFDArray[i].revents = 0;
+					break;
+
+				//이상한 값이 들어온 상태!
+				default:
+					EndFD(&pollFDArray[i]);
+					break;
+				};
+			};
 		};
 	};
 
@@ -189,4 +225,17 @@ int StartServer(int currentFD)
 
 	//당신은 모든 시련을 훌륭하게 이겨내셨습니다
 	return 1;
+}
+
+//대상 소켓을 정리하도록 합시다!
+void EndFD(struct pollfd* targetFD)
+{
+	//닫아주기!
+	close(targetFD->fd);
+
+	//닫았으니까 -1로 표시하기~!
+	targetFD->fd = -1;
+	targetFD->revents = 0;
+
+	cout << "User Connection has Destroyed" << endl;
 }
