@@ -43,7 +43,7 @@ using namespace std;
 //파일 번호를 저장할 수 있는 공간이 될 거에요! 소켓에 해당되는 파일 정보!
 struct pollfd pollFDArray[MAX_USER_NUMBER];
 
-
+void EndFD(struct pollfd* targetFD);
 int StartServer(int currentFD);
 
 int main()
@@ -56,6 +56,11 @@ int main()
 	//다른 FD한테 새로운 접속을 알려주는 역할로 둘 거에요! (입구 역할을 하는 거에요!)
 	//0번째 유저를 리슨소켓으로 사용할 겁니다!
 	struct pollfd& ListenFD = pollFDArray[0];
+
+	//받은 내용을 저장하는 공간(버퍼)
+	char buffRecv[MAX_BUFFER_SIZE] = { 0 };
+	//보낼 내용을 저장하는 공간(버퍼)
+	char buffSend[MAX_BUFFER_SIZE] = { 0 };
 
 	//현재 유저 수
 	unsigned int currentUserNumber = 0;
