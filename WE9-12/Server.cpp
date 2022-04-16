@@ -86,7 +86,7 @@ int main()
 		//연결을 시도하고 싶어하는 소켓을 새로 준비합니다! 새로운 공간을 만들기 위한 공간?
 		struct sockaddr_in connectSocket;
 		//연결하고자 하는 소켓의 주소 사이즈!
-		struct socklen_t addressSize;
+		class socklen_t addressSize;
 
 		//누가 부르던데요? 0이면 아무도 대답안했다! 15라고 하면, 15명이 부른다!
 		if (result > 0)
@@ -97,7 +97,7 @@ int main()
 			{
 				cout << "Someone Connected!" << endl;
 				//저희는 서버죠! 서버는요 누군가 들어오고 싶다면 밴된 아이피가 아니라고 한다면야.. 다 받아줘야 합니다!
-				int currentFD = accept(listenFD, (struct sockaddr*)&connectSocket, &addressSize);
+				int currentFD = accept(ListenFD, (struct sockaddr*)&connectSocket, &addressSize);
 
 				//0번을 리슨 소켓으로 쓰고 있어서 전체 유저 수를 -1한 상태에서 비교할게요!
 				if (currentUserNumber < MAX_USER_NUMBER - 1)
