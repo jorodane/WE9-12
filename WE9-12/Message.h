@@ -48,7 +48,7 @@ void BroadCastMessage(char* message, int length, int sendFD = -1, bool sendSelf 
 			//서버가 무언가 보낼 때 "적어 주는 거"에요 그래서 Write라고 부르고
 			//받을 때에는 Read하겠죠?
 			//       대상의 소켓,     메시지,   길이
-			//if (write(pollFDArray[i].fd, message, length))
+			if (write(pollFDArray[i].fd, message, length))
 			{
 				//보냈다!
 				++send;
