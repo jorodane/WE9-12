@@ -54,4 +54,5 @@ void BroadCastMessage(char* message, int length, int sendFD = -1, bool sendSelf 
 			++send;
 		};
 	};
+	cout << "Send Complete For " << send << " User" << endl;
 }
