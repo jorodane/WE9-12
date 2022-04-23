@@ -37,7 +37,7 @@ void BroadCastMessage(char* message, int length, int sendFD = -1, bool sendSelf 
 	//     본인한테 보냄?  아무한테도 아직 안보냈다! : 1명 보내놨다!
 	
 	// 0번은 리슨 소켓!   최대치까지 갔거나, 또는 현재 유저 수만큼 보냈다면!
-	for (int i = 1; i < MAX_USER_NUMBER, i++);// || send >= currentUserNumber; i++)
+	for (int i = 1; i < MAX_USER_NUMBER; i++)// || send >= currentUserNumber; i++)
 	{
 		//본인한테 안 보낼거임! 이라고 할 때 받아온 정보가 있다면 넘어가기!
 		if (!sendSelf && i == sendFD) continue;
