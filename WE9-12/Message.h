@@ -51,7 +51,7 @@ void BroadCastMessage(char* message, int length, int sendFD = -1, bool sendSelf 
 			if (write(pollFDArray[i].fd, message, length))
 			{
 				//보냈다!   그랬더니 다 보냄! 이라고 했을 때 돌려주기!
-				if (++send >= currentUserNumber) return;
+				if (++send >= currentUserNumber) break;
 			};
 		};
 	};
