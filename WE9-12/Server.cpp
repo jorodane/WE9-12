@@ -42,29 +42,32 @@ using namespace std;
 //소켓을 형상화한 것인데! 리눅스는 소켓이라고 하는 것도 일종의 파일 형태로 관리를 합니다!
 //파일 번호를 저장할 수 있는 공간이 될 거에요! 소켓에 해당되는 파일 정보!
 struct pollfd pollFDArray[MAX_USER_NUMBER];
+//듣기만 하는 fd가 필요해요!
+//사실 이상한 애가 와서 이야기를 하면 안들어야겠죠!
+//컴퓨터는 처음 보는 IP가 와서 이야기하면 "전화 잘못거셨어요!" 라고 하면서 끊어버려요!
+//ListenFD라고 하는 애는 잘 들어줄 겁니다!
+//아하! 이 분이 지금 접속을 하고 싶으신가 봅니다!
+//다른 FD한테 새로운 접속을 알려주는 역할로 둘 거에요! (입구 역할을 하는 거에요!)
+//0번째 유저를 리슨소켓으로 사용할 겁니다!
+struct pollfd& ListenFD = pollFDArray[0];
+
+//받은 내용을 저장하는 공간(버퍼)
+char buffRecv[MAX_BUFFER_SIZE] = { 0 };
+//보낼 내용을 저장하는 공간(버퍼)
+char buffSend[MAX_BUFFER_SIZE] = { 0 };
+
+//현재 유저 수
+unsigned int currentUserNumber = 0;
 
 void EndFD(struct pollfd* targetFD);
 int StartServer(int currentFD);
 
+//왜 #include가 여기에 있나요?
+//헤더는 복사 붙여넣기라서 여기에 있어야 위에 있는 변수들을 사용할 수 있어서 여기에다 뒀어요!
+#include "Message.h"
+
 int main()
 {
-	//듣기만 하는 fd가 필요해요!
-	//사실 이상한 애가 와서 이야기를 하면 안들어야겠죠!
-	//컴퓨터는 처음 보는 IP가 와서 이야기하면 "전화 잘못거셨어요!" 라고 하면서 끊어버려요!
-	//ListenFD라고 하는 애는 잘 들어줄 겁니다!
-	//아하! 이 분이 지금 접속을 하고 싶으신가 봅니다!
-	//다른 FD한테 새로운 접속을 알려주는 역할로 둘 거에요! (입구 역할을 하는 거에요!)
-	//0번째 유저를 리슨소켓으로 사용할 겁니다!
-	struct pollfd& ListenFD = pollFDArray[0];
-
-	//받은 내용을 저장하는 공간(버퍼)
-	char buffRecv[MAX_BUFFER_SIZE] = { 0 };
-	//보낼 내용을 저장하는 공간(버퍼)
-	char buffSend[MAX_BUFFER_SIZE] = { 0 };
-
-	//현재 유저 수
-	unsigned int currentUserNumber = 0;
-
 	              //IPv4(4바이트짜리 IP)
 	ListenFD.fd = socket(AF_INET, SOCK_STREAM, 0);
 	ListenFD.events = POLLIN;
@@ -151,6 +154,7 @@ int main()
 					};
 
 					//꺼달라고 하는 게 아니고 다른 걸 부탁했을 때 여기에서 메시지를 처리할 필요가 있구요!
+					BroadCastMessage(buffRecv, sizeof(buffRecv));
 
 					//입력 버퍼 초기화!
 					memset(buffRecv, 0, sizeof(buffRecv));
