@@ -35,7 +35,7 @@ void BroadCastMessage(char* message, int length, int sendFD = -1, bool sendSelf 
 	int send = sendSelf ? 0 : 1;
 	//			 조건   ? true : false
 	//     본인한테 보냄?  아무한테도 아직 안보냈다! : 1명 보내놨다!
-	/*
+	
 	// 0번은 리슨 소켓!   최대치까지 갔거나, 또는 현재 유저 수만큼 보냈다면!
 	for (int i = 1; i < MAX_USER_NUMBER || send >= currentUserNumber; i++)
 	{
@@ -54,5 +54,4 @@ void BroadCastMessage(char* message, int length, int sendFD = -1, bool sendSelf 
 			++send;
 		};
 	};
-	cout << "Send Complete For " << send << " User" << endl;*/
 }
