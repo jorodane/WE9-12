@@ -153,10 +153,8 @@ int main()
 						break;
 					};
 
-					cout << "Received" << endl;
 					//꺼달라고 하는 게 아니고 다른 걸 부탁했을 때 여기에서 메시지를 처리할 필요가 있구요!
 					BroadCastMessage(buffRecv, sizeof(buffRecv));
-					cout << "And Send" << endl;
 
 					//입력 버퍼 초기화!
 					memset(buffRecv, 0, sizeof(buffRecv));
@@ -247,6 +245,9 @@ void EndFD(struct pollfd* targetFD)
 	//닫았으니까 -1로 표시하기~!
 	targetFD->fd = -1;
 	targetFD->revents = 0;
+
+	//나갔으니까 유저 수 줄여주기!
+	--currentUserNumber;
 
 	cout << "User Connection has Destroyed" << endl;
 }
