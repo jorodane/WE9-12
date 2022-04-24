@@ -99,7 +99,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo i
 
 	//메모리 중에서 제가 처리해야하는 메모리까지만!
 	char* target = new char[currentLength];
-	memset(target, message, currentLength);
+	memcpy(target, message, currentLength);
 
 	//타입에 따라 다른 행동!
 	switch (info.type)

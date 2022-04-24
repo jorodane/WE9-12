@@ -168,7 +168,6 @@ int main()
 					//BroadCastMessage(buffRecv, sizeof(buffRecv));
 					int leftSize = sizeof(buffRecv);
 					int checkSize = 0;
-
 					while (leftSize > 0)
 					{
 						//지금까지 체크된 칸 다음부터 0 1 2 3
