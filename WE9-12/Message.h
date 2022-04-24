@@ -21,9 +21,9 @@ union ConvertionBase
 	unsigned int uInteger;
 	int integer;
 	float floating;
-	char[4] character;
-	short[2] shortInteger;
-	unsigned short[2] uShortInteger;
+	char character[4];
+	short shortInteger[2];
+	unsigned short uShortInteger[2];
 };
 ConvertionBase byteConvertor;
 
