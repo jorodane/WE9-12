@@ -150,11 +150,12 @@ int main()
 				//대상이 전달해준 반응
 				switch (pollFDArray[i].revents)
 				{
-				//반응 없음!
+					//반응 없음!
 				case 0: break;
 
-				//반응 있음!
+					//반응 있음!
 				case POLLIN:
+				{
 					//무슨 반응이었는지를 확인해봐야겠죠!
 					//                         읽기 버퍼            연결 해제 요청!
 					if (read(pollFDArray[i].fd, buffRecv, MAX_BUFFER_SIZE) < 1)
@@ -189,7 +190,7 @@ int main()
 					//입력 해결해줬으니까 더 내용이 없다!
 					pollFDArray[i].revents = 0;
 					break;
-
+				}
 				//이상한 값이 들어온 상태!
 				default:
 					EndFD(&pollFDArray[i]);
