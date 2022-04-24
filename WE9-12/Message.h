@@ -34,7 +34,7 @@ struct MessageInfo
 };
 
 //메시지를 구분하는 용도                   길이 받을 int 주세요!
-MessageInfo ProcessMessage(char[4] input)
+MessageInfo ProcessMessage(char input[4])
 {
 	byteConvertor.character = input;
 	//메시지타입		길이
