@@ -151,7 +151,10 @@ int main()
 				switch (pollFDArray[i].revents)
 				{
 					//반응 없음!
-				case 0: break;
+				case 0:
+				{
+					break;
+				}//Switch문 안에 변수나 그런 걸 만들 때에 중괄호를 달아주셔야 해요!
 
 					//반응 있음!
 				case POLLIN:
