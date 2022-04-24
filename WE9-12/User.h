@@ -1,3 +1,5 @@
+class User* userArray[MAX_USER_NUMBER] = { nullptr };
+
 class User
 {
 	int fdNumber;
