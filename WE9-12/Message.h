@@ -1,5 +1,8 @@
+//항상 클라이언트의 enum값과 일치시켜주세요!
 enum class MessageType
 {
+	LogIn,
+	LogOut,
 	Chat,
 
 	Length 
