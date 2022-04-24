@@ -100,7 +100,6 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo i
 	//메모리 중에서 제가 처리해야하는 메모리까지만!
 	char* target = new char[currentLength];
 	memcpy(target, message, currentLength);
-	cout << "Created" << endl;
 	//타입에 따라 다른 행동!
 	switch (info.type)
 	{
@@ -118,5 +117,5 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo i
 	//모아두었다가 보내는 개념!
 	//전체 메시지 길이 - 지금 확인한 메시지 길이!
 	//아직 뒤에 메시지가 더 있어요! 라고 하는 걸 확인할 수 있죠!
-	return messageLength - info.length;
+	return info.length;
 }
