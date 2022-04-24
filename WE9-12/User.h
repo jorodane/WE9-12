@@ -1,7 +1,7 @@
 class User
 {
 	int fdNumber;
-	wstring name = "<NULL>";
+	string name = "<NULL>";
 
 public:
 	User(int targetFD)
@@ -9,5 +9,5 @@ public:
 		fdNumber = targetFD;
 	}
 
-	void SetName(wstring wantName) { name = wantName; };
+	void SetName(string wantName) { name = wantName; };
 };
