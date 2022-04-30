@@ -31,7 +31,7 @@ class MessageInfo
 {
 public :
 	MessageType type;
-	short length;
+	int length;
 };
 
 class MessageInfo_Login : public MessageInfo
