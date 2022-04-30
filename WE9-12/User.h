@@ -28,7 +28,7 @@ public:
 	bool CheckNameValidate(string wantName)
 	{
 		//이름이 너무 깁니다!
-		if (wantName.length > 16) return false;
+		if (wantName.length() > 16) return false;
 
 		int leftUser = currentUserNumber;
 		for (int i = 0; i < MAX_USER_NUMBER; i++)
