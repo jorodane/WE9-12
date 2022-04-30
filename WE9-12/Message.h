@@ -3,6 +3,7 @@ bool SendMessage(char* message, int length, int sendFD)
 	//서버가 무언가 보낼 때 "적어 주는 거"에요 그래서 Write라고 부르고
 	//받을 때에는 Read하겠죠?
 	write(sendFD, message, length);
+	return true;
 }
 
 //                                              본인에게 보내기는 기본적으로 true에요~!
