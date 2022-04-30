@@ -93,6 +93,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 		{
 			BroadCastMessage(target, currentLength, fromFD);
 		};
+		cout << "Someone Try Login! Name is " << loginInfo->name << "!!" << endl;
 		break;
 	}
 	case MessageType::LogOut:
