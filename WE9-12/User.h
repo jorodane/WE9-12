@@ -22,6 +22,8 @@ public:
 
 		//이름 설정에 실패했습니다!
 		if (!SetName(wantName)) return false;
+
+		return true;
 	};
 
 	//해당 이름이 유효한지 체크하기!
