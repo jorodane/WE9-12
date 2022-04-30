@@ -42,8 +42,8 @@ void BroadCastMessage(char* message, int length, int sendFD = -1, bool sendSelf 
 	};
 }
 
-//메시지를 구분하는 용도                   길이 받을 int 주세요!
-MessageInfo ProcessMessage(char* input)
+//메시지를 구분하는 용도                  이걸 준 유저
+MessageInfo ProcessMessage(char* input, int userIndex)
 {
 	for (int i = 0; i < 4; i++)
 	{
