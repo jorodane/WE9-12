@@ -64,6 +64,7 @@ int StartServer(int currentFD);
 
 //왜 #include가 여기에 있나요?
 //헤더는 복사 붙여넣기라서 여기에 있어야 위에 있는 변수들을 사용할 수 있어서 여기에다 뒀어요!
+#include "MessageInfo.h"
 #include "Message.h"
 #include "User.h"
 
@@ -174,15 +175,8 @@ int main()
 					int checkSize = 0;
 					while (leftSize > 0)
 					{
-						//지금까지 체크된 칸 다음부터 0 1 2 3
-						char header[4];
-						header[0] = buffRecv[0 + checkSize];
-						header[1] = buffRecv[1 + checkSize];
-						header[2] = buffRecv[2 + checkSize];
-						header[3] = buffRecv[3 + checkSize];
-
 						//					움직이면서 보는 것이죠!
-						int currentSize = TranslateMessage(i, buffRecv + checkSize, leftSize, ProcessMessage(header));
+						int currentSize = TranslateMessage(i, buffRecv + checkSize, leftSize, ProcessMessage(buffRecv + checkSize));
 
 						checkSize += currentSize;
 						leftSize -= currentSize;

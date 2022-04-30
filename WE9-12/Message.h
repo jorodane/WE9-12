@@ -1,37 +1,9 @@
-//항상 클라이언트의 enum값과 일치시켜주세요!
-enum class MessageType
+bool SendMessage(char* message, int length, int sendFD)
 {
-	LogIn,
-	LogOut,
-	Chat,
-
-	Length 
-	//제가 가진 메시지 타입의 개수보다 더 많은 내용이 들어오면 무시!
-};
-
-//통합! 이라고 하는 것이죠!
-//Struct랑 비슷하게 쓰실 수 있습니다!
-//차이점이 무엇이냐? 하나의 메모리를 여러가지 자료형이 공유해요!
-
-//[0][0][0][10]
-//          10  int
-//          \n  char[3]
-union ConvertionBase
-{
-	unsigned int uInteger;
-	int integer;
-	float floating;
-	char character[4];
-	short shortInteger[2];
-	unsigned short uShortInteger[2];
-};
-ConvertionBase byteConvertor;
-
-struct MessageInfo
-{
-	MessageType type;
-	int length;
-};
+	//서버가 무언가 보낼 때 "적어 주는 거"에요 그래서 Write라고 부르고
+	//받을 때에는 Read하겠죠?
+	write(sendFD, message, length);
+}
 
 //                                              본인에게 보내기는 기본적으로 true에요~!
 //												그럼 뭐.. 체크안해도 되겠죠!
@@ -61,20 +33,17 @@ void BroadCastMessage(char* message, int length, int sendFD = -1, bool sendSelf 
 		//대상이 없는데 보낼 순 없겠죠?
 		if (pollFDArray[i].fd != -1)
 		{
-			//서버가 무언가 보낼 때 "적어 주는 거"에요 그래서 Write라고 부르고
-			//받을 때에는 Read하겠죠?
-			//       대상의 소켓,     메시지,   길이
-			if (write(pollFDArray[i].fd, message, length))
-			{
-				//보냈다!   그랬더니 다 보냄! 이라고 했을 때 돌려주기!
-				if (++send >= currentUserNumber) break;
-			};
+			//           메시지,   길이,   대상의 소켓
+			SendMessage(message, length, pollFDArray[i].fd);
+
+			//보냈다!   그랬더니 다 보냄! 이라고 했을 때 돌려주기!
+			if (++send >= currentUserNumber) break;
 		};
 	};
 }
 
 //메시지를 구분하는 용도                   길이 받을 int 주세요!
-MessageInfo ProcessMessage(char input[4])
+MessageInfo ProcessMessage(char* input)
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -83,9 +52,19 @@ MessageInfo ProcessMessage(char input[4])
 	//메시지타입		길이
 	//[][]			[][]
 
-	MessageInfo result;
-	result.type		= (MessageType)byteConvertor.shortInteger[0];	//타입 돌려주기!
-	result.length	= byteConvertor.shortInteger[1] + 4;			//길이도 줍시다!
+	MessageInfo* result;
+	//메시지 타입에 따라서 내용 넣어주기!
+	switch ((MessageType)byteConvertor.shortInteger[0])
+	{
+	case MessageType::LogIn:
+		result = new MessageInfo_Login(input, userIndex);
+		break;
+	default:
+		result = new MessageInfo();
+		result->type = MessageType::Chat;	//타입 돌려주기!
+		break;
+	}
+	result->length	= byteConvertor.shortInteger[1] + 4;			//길이도 줍시다!
 
 	return result;
 }
@@ -94,10 +73,8 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo i
 {
 	//전체 길이와 하나의 메시지 길이 둘 중에 작은 값으로!
 	int currentLength = min(messageLength, info.length);
-
 	//메모리 중에서 제가 처리해야하는 메모리까지만!
 	char* target = new char[currentLength];
-
 	memcpy(target, message, currentLength);
 
 	//타입에 따라 다른 행동!
@@ -108,6 +85,12 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo i
 		cout << "Message Send To " << send << "User : " << target + 4 << endl;
 		break;
 	case MessageType::LogIn:
+		MessageInfo_Login loginInfo = (MessageInfo_Login)info;
+		//로그인 정보에서 이름을 받아와서 시도해봅니다!
+		if (userArray[fromFD]->LogIn(loginInfo.name))
+		{
+			BroadCastMessage(target, currentLength, fromFD);
+		};
 		break;
 	case MessageType::LogOut:
 		break;
