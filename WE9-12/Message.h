@@ -66,7 +66,7 @@ MessageInfo* ProcessMessage(char* input, int userIndex)
 		break;
 	}
 	result->length	= byteConvertor.shortInteger[1] + 4;			//길이도 줍시다!
-
+	cout << result->length << endl;
 	return result;
 }
 
