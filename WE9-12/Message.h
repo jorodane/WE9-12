@@ -86,12 +86,14 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 	switch (info->type)
 	{
 	case MessageType::Chat:
+	{
 		MessageInfo_Chat* chatInfo = (MessageInfo_Chat*)info;
 
 		BroadCastMessage(target, currentLength, fromFD);
 
 		cout << "Message Send To " << send << "User : " << target + 4 << endl;
 		break;
+	}
 	case MessageType::LogIn:
 	{
 		MessageInfo_Login* loginInfo = (MessageInfo_Login*)info;
