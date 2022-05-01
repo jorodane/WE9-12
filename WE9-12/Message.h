@@ -122,7 +122,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 			sendResult[8] = 0;
 			cout << "Login Failed" << endl;
 		};
-		BroadCastMessage(sendResult, 9, fromFD);
+		SendMessage(sendResult, 9, pollFDArray[fromFD]->fd);
 		break;
 	}
 	case MessageType::LogOut:
