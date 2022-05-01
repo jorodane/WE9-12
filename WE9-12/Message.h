@@ -97,12 +97,32 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 	case MessageType::LogIn:
 	{
 		MessageInfo_Login* loginInfo = (MessageInfo_Login*)info;
+
+		cout << "Someone Try Login! Name is " << loginInfo->name << "!!" << endl;
+		//           유저번호  성공여부
+		//[][] [][]  [][][][] []
+		char sendResult[9] = { 0 };
+
+		byteConvertor.uShortInteger[0] = MessageType::LogIn;
+		byteConvertor.uShortInteger[1] = 5;
+
+		for (int i = 0; i < 4; i++)
+		{
+			sendResult[i] = byteConvertor.character[i];
+		};
+
 		//로그인 정보에서 이름을 받아와서 시도해봅니다!
 		if (userArray[fromFD]->LogIn(loginInfo->name))
 		{
-			BroadCastMessage(target, currentLength, fromFD);
+			sendResult[8] = 1;
+			cout << "Login Succeed" << endl;
+		}
+		else
+		{
+			sendResult[8] = 0;
+			cout << "Login Failed" << endl;
 		};
-		cout << "Someone Try Login! Name is " << loginInfo->name << "!!" << endl;
+		SendMessage(sendResult, 9, fromFD);
 		break;
 	}
 	case MessageType::LogOut:
