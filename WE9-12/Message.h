@@ -112,6 +112,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 		return MAX_BUFFER_SIZE; //최대치까지 밀어서 그 뒤에 메시지가 더 없다고 알려줍니다!
 
 	default:
+		break;
 	}
 
 	//메시지 처리 완료!
