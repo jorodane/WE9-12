@@ -19,6 +19,7 @@ ConvertionBase byteConvertor;
 //항상 클라이언트의 enum값과 일치시켜주세요!
 enum class MessageType
 {
+	EndOfLine, //문자열의 끝을 판단할 때 \0이라고 하는 걸 파악했습니다! 메시지가 뒤에 더 없다 라고 하는 걸 EndOfLine으로 표시!
 	LogIn,
 	LogOut,
 	Chat,
