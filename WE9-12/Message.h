@@ -109,7 +109,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 
 		BroadCastMessage(sendResult, currentLength + 4, fromFD);
 
-		cout << "Message Send From " << userArray[fromFD]->GetName() << " : " << sendResult + 4 << endl;
+		cout << "Message Send From " << userArray[fromFD]->GetName() << " : " << sendResult + 8 << endl;
 		delete sendResult;
 		break;
 	}
