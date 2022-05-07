@@ -81,7 +81,7 @@ int StartServer(int currentFD);
 #include "Message.h"
 
 //유저들의 메시지를 보내는 스레드입니다!
-void SendThread(void* data)
+void* SendThread(void* data)
 {
 	int checkNumber;
 	while (true)
