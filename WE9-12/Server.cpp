@@ -21,6 +21,12 @@
 //최대값을 정해야하는 다른 수가 있을 거에요!
 #define MAX_USER_NUMBER 100
 
+//메시지를 보내는데 일정한 간격을 두고 보냅니다!
+#define SEND_TICK_RATE 30
+
+//1초에 얼마나 보내는지!
+#define SEND_PER_SECONDS 1000 / SEND_TICK_RATE
+
 #include <iostream>
 
 //지금 윈도우에선 안나옵니다! 리눅스에서 사용할 헤더를 드리고 있는 거에요!
@@ -33,6 +39,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include <unistd.h>
+#include <pthread.h>
 #include <queue>
 
 using namespace std;
@@ -57,6 +64,10 @@ char buffRecv[MAX_BUFFER_SIZE] = { 0 };
 //보낼 내용을 저장하는 공간(버퍼)
 char buffSend[MAX_BUFFER_SIZE] = { 0 };
 
+//쓰레드 부분!
+pthread_t sendThread;
+pthread_t commandThread;
+
 //현재 유저 수
 unsigned int currentUserNumber = 0;
 
@@ -68,6 +79,31 @@ int StartServer(int currentFD);
 #include "User.h"
 #include "MessageInfo.h"
 #include "Message.h"
+
+//유저들의 메시지를 보내는 스레드입니다!
+void SendThread(void* data)
+{
+	int checkNumber;
+	while (true)
+	{
+		checkNumber = 0;
+		//유저 전체 돌아주기!
+		for (int i = 1; i < MAX_USER_NUMBER; i++)
+		{
+			//유저 있네!
+			if (userArray[i] != nullptr)
+			{
+				//보내보자!
+				userArray[i]->Send();
+
+				//체크 했습니다!
+				++checkNumber;
+				//체크 다했네요!
+				if (checkNumber >= currentUserNumber) break;
+			};
+		};
+	};
+}
 
 int main()
 {
@@ -254,6 +290,13 @@ int StartServer(int currentFD)
 	{
 		perror("listen()");
 		close(currentFD);
+		return -1;
+	};
+
+	//스레드를 만들어봅니다!
+	if (pthread_create(&sendThread, NULL, SendThread, NULL) != 0)
+	{
+		cout << "Cannot Create Send Thread" << endl;
 		return -1;
 	};
 
