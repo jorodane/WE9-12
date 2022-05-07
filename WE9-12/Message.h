@@ -141,7 +141,36 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 			sendResult[8] = 0;
 			cout << "Login Failed" << endl;
 		};
+		//본인한테 성공 여부를 보내주는 것!
 		SendMessage(sendResult, 9, pollFDArray[fromFD].fd);
+
+		//로그인에 실패한 경우에는 다른 사람들한테 아무 말도 안해도 괜찮아요!
+		if (sendResult[8] == 0) break;
+
+		//다른 사람들한테 보내줄 내용!
+		char* broadcastResult;
+
+		int currentLength = 0;
+		//글자 끝이 나오지 않았다!
+		while (loginInfo->name[currentLength] != '\0')
+		{
+			++currentLength; //글자 끝이 나올 때까지 달려서 길이를 재어보기!
+		};
+
+		//일반적인 내용 [][] [][] [][][][] -> [][][][][][][][][][]
+		broadcastResult = new char[currentLength + 8];
+		byteConvertor.uShortInteger[0] = (short)MessageType::LogIn;
+		byteConvertor.uShortInteger[1] = currentLength + 4;
+		//                                            유저번호 들어갈 4칸!
+
+		//이름까지 채워주기!
+		memcpy(broadcastResult + 8, loginInfo->name, currentLength);
+
+		//이제 방송합시다!
+		BroadCastMessage(broadcastResult, currentLength + 8);
+
+		//잘 썼습니다 ^^
+		delete broadcastResult;
 		break;
 	}
 	case MessageType::LogOut:
