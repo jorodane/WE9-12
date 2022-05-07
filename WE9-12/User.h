@@ -52,7 +52,7 @@ public:
 		{
 			//write는요! 데이터를 보냈을 때! 보낸 길이를 다시 저희한테 알려줍니다!
 			//0보다 크다고 한다면 메시지가 잘 보내졌다고 볼 수 있지 않을까요?
-			if (write(sendFD, message, length) > 0)
+			if (write(fdNumber, waitSend, waitLength) > 0)
 			{
 				//보낼 내용도 0으로 초기화!
 				memset(waitSend, 0, waitLength);
