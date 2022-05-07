@@ -1,8 +1,22 @@
-bool SendMessage(char* message, int length, int sendFD)
+bool SendMessage(char* message, int length, int userNumber)
 {
 	//서버가 무언가 보낼 때 "적어 주는 거"에요 그래서 Write라고 부르고
 	//받을 때에는 Read하겠죠?
-	write(sendFD, message, length);
+	//서버가 정보를 보내는 것은! 문제가 하나가 있습니다!
+	//이미 보내고 있는 중에는 추가적인 메시지를 보내기가 힘들어요!
+	//지금 이거 보내고 있어서 제가 더 처리해드리기가 힘드네요!
+	//"이거 다 하고 보내드릴게요^^ 라고 하면 참 좋겠지만! 서버는 그렇게 행동하지 않아요!
+	//"지금 하고 있으니까 보내지 마세요!" 라고 그냥 날려버립니다!
+	//그럼 메세지를 어떻게 보내죠? 라고 생각하실 수 있죠!
+	//"메세지 큐"라고 하는 것이 필요합니다! 해당 유저에게 보내야 하는 메시지들을
+	//저장해놓는 공간이 필요해요! 보내지 못했을 때 담아두려고!
+	//해당 유저가 존재할 경우에!
+	if (userArray[userNumber] != nullptr)
+	{
+		//해당 유저에게 메시지를 전달해주기!
+		userArray[userNumber]->MessageQueue(message, length);
+	}
+	//write(sendFD, message, length);
 	return true;
 }
 
@@ -168,7 +182,6 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 
 		//이제 방송합시다!
 		BroadCastMessage(broadcastResult, currentLength + 8);
-		cout << loginInfo->name << endl;
 
 		//잘 썼습니다 ^^
 		delete broadcastResult;
