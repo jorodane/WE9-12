@@ -77,10 +77,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 	if (info == nullptr) return MAX_BUFFER_SIZE;
 
 	//전체 길이와 하나의 메시지 길이 둘 중에 작은 값으로!
-	int currentLength = min(messageLength, info->length);
-	//메모리 중에서 제가 처리해야하는 메모리까지만!
-	char* target = new char[currentLength];
-	memcpy(target, message, currentLength);
+	int currentLength = min(messageLength, info->length);	
 
 	//타입에 따라 다른 행동!
 	switch (info->type)
@@ -88,32 +85,32 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 	case MessageType::Chat:
 	{
 		MessageInfo_Chat* chatInfo = (MessageInfo_Chat*)info;
-		/*
-		memcpy(target + 20, message + 4, currentLength - 20);
-
+		//메모리 중에서 제가 처리해야하는 메모리까지만!
+		char* sendResult = new char[currentLength + 4];
 		byteConvertor.uShortInteger[0] = (short)MessageType::Chat;
-		byteConvertor.uShortInteger[1] = currentLength;
+		//                               전체 메시지 길이에서 헤더 길이 뺀 것!
+		byteConvertor.uShortInteger[1] = currentLength - 4;
 
+		//위쪽에서 제가 새로 만든 헤더를 넣어주는 거에요!
 		for (int i = 0; i < 4; i++)
 		{
-			target[i] = byteConvertor.character[i];
+			sendResult[i] = byteConvertor.character[i];
 		};
-		string fromName = userArray[fromFD]->GetName();
-		for (int i = 4; i < 20; i++)
+		//그 다음 4byte에는 유저 번호를 입력해줍니다!
+		byteConvertor.integer = fromFD;
+		//4 ~ 7까지는 유저 번호가 들어갑니다!
+		for (int i = 0; i < 4; i++)
 		{
-			if (i > fromName.size())
-			{
-				target[i] = 32;//스페이스바!
-			}
-			else
-			{
-				target[i] = fromName[i - 4];
-			};
+			sendResult[i + 4] = byteConvertor.character[i];
 		};
-		target[19] = ':';*/
-		BroadCastMessage(target, currentLength, fromFD);
+		// 4칸을 추가를 해놓았기 때문에 4칸의 여유를 더 주도록 하겠습니다!
+		memcpy(sendResult + 8, message + 4, currentLength - 8);
+		//                 여기                             여기      두 개가 연관되는 개수기 때문에 맞춰줍시다!
 
-		cout << "Message Send From " << userArray[fromFD]->GetName() << " : " << target + 4 << endl;
+		BroadCastMessage(sendResult, currentLength + 4, fromFD);
+
+		cout << "Message Send From " << userArray[fromFD]->GetName() << " : " << sendResult + 4 << endl;
+		delete sendResult;
 		break;
 	}
 	case MessageType::LogIn:
