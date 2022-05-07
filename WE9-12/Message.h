@@ -164,7 +164,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 		//                                            유저번호 들어갈 4칸!
 
 		//이름까지 채워주기!
-		memcpy(broadcastResult + 8, loginInfo->name, currentLength);
+		memcpy(broadcastResult + 8, loginInfo->name.c_str(), currentLength);
 
 		//이제 방송합시다!
 		BroadCastMessage(broadcastResult, currentLength + 8);
