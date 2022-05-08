@@ -41,6 +41,7 @@ public:
 
 			//그 만큼 길이가 늘어났으니까!
 			waitLength += length;
+			cout << waitLength << endl;
 		};
 	}
 
