@@ -13,6 +13,7 @@ bool SendMessage(char* message, int length, int userNumber)
 	//해당 유저가 존재할 경우에!
 	if (userArray[userNumber] != nullptr)
 	{
+		cout << userNumber << endl;
 		//해당 유저에게 메시지를 전달해주기!
 		userArray[userNumber]->MessageQueue(message, length);
 	}
