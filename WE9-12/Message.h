@@ -79,7 +79,7 @@ MessageInfo* ProcessMessage(char* input, int userIndex)
 		break;
 	case MessageType::Input:
 		//4번째 칸부터 제가 입력 타입을 적어놓았습니다!
-		for (int i = 0; i < 4; i++) byteConvertor.character = input[i + 4];
+		for (int i = 0; i < 4; i++) byteConvertor.character[i] = input[i + 4];
 		result = new MessageInfo_Input((InputType)byteConvertor.integer, userIndex);
 		break;
 	default:					result = new MessageInfo();
