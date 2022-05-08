@@ -48,8 +48,8 @@ void BroadCastMessage(char* message, int length, int sendFD = -1, bool sendSelf 
 		//대상이 없는데 보낼 순 없겠죠?
 		if (pollFDArray[i].fd != -1)
 		{
-			//           메시지,   길이,   대상의 소켓
-			SendMessage(message, length, pollFDArray[i].fd);
+			//           메시지,   길이,   대상
+			SendMessage(message, length,  i);
 
 			//보냈다!   그랬더니 다 보냄! 이라고 했을 때 돌려주기!
 			if (++send >= currentUserNumber) break;
@@ -156,7 +156,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 			cout << "Login Failed" << endl;
 		};
 		//본인한테 성공 여부를 보내주는 것!
-		SendMessage(sendResult, 9, pollFDArray[fromFD].fd);
+		SendMessage(sendResult, 9, fromFD);
 
 		//로그인에 실패한 경우에는 다른 사람들한테 아무 말도 안해도 괜찮아요!
 		if (sendResult[8] == 0) break;
