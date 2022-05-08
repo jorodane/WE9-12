@@ -178,6 +178,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 		//                                            유저번호 들어갈 4칸!
 		for (int i = 0; i < 4; i++) broadcastResult[i] = byteConvertor.character[i];
 
+		//유저 번호 무엇인가요?
 		byteConvertor.integer = loginInfo->userIndex;
 		for (int i = 0; i < 4; i++) broadcastResult[i + 4] = byteConvertor.character[i];
 
