@@ -77,6 +77,11 @@ MessageInfo* ProcessMessage(char* input, int userIndex)
 		break;
 	case MessageType::Chat:		result = new MessageInfo_Chat(input, userIndex);
 		break;
+	case MessageType::Input:
+		//4번째 칸부터 제가 입력 타입을 적어놓았습니다!
+		for (int i = 0; i < 4; i++) byteConvertor.character = input[i + 4];
+		result = new MessageInfo_Input((InputType)byteConvertor.integer, userIndex);
+		break;
 	default:					result = new MessageInfo();
 								result->type = MessageType::Unknown;
 	}
@@ -194,7 +199,25 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 	}
 	case MessageType::LogOut:
 		break;
+	case MessageType::Input:
+	{
+		MessageInfo_Input* inputInfo = (MessageInfo_Input*)info;
+		char* broadcastResult = new char[12];
 
+		byteConvertor.uShortInteger[0] = (short)MessageType::Input;
+		byteConvertor.uShortInteger[1] = 8;
+		for (int i = 0; i < 4; i++) broadcastResult[i] = byteConvertor[i];
+
+		byteConvertor.integer = inputInfo->userIndex;
+		for (int i = 0; i < 4; i++) broadcastResult[i + 4] = byteConvertor[i];
+
+		byteConvertor.integer = (int)inputInfo->type;
+		for (int i = 0; i < 4; i++) broadcastResult[i + 8] = byteConvertor[i];
+
+		BroadCastMessage(broadcastResult, 12);
+		delete[] broadcastResult;
+		break;
+	}
 	case MessageType::EndOfLine:
 		return MAX_BUFFER_SIZE; //최대치까지 밀어서 그 뒤에 메시지가 더 없다고 알려줍니다!
 

@@ -23,10 +23,18 @@ enum class MessageType
 	LogIn,
 	LogOut,
 	Chat,
+	Input,
 
 	Unknown,  //서버 전용 모르겠다 선언!
 	Length
 	//제가 가진 메시지 타입의 개수보다 더 많은 내용이 들어오면 무시!
+};
+
+enum class InputType
+{
+	Button0,
+	Button1,
+	Button2,
 };
 
 class MessageInfo
@@ -34,12 +42,12 @@ class MessageInfo
 public :
 	MessageType type;
 	int length;
+	int userIndex;
 };
 
 class MessageInfo_Login : public MessageInfo
 {
 public :
-	int userIndex;
 	string name;
 	MessageInfo_Login(char* message, int targetUser)
 	{
@@ -54,7 +62,6 @@ public :
 class MessageInfo_Chat : public MessageInfo
 {
 public:
-	int userIndex;
 	string value;
 
 	MessageInfo_Chat(char* message, int targetUser)
@@ -64,5 +71,16 @@ public:
 		userIndex = targetUser;
 		//메시지의 4번째부터 내용을 넣어주도록 합시다!
 		value = &(message[4]);
+	}
+};
+
+class MessageInfo_Input : public MessageInfo
+{
+	InputType type;
+
+	MessageInfo_Input(InputType wantType, int targetUser)
+	{
+		type = wantType;
+		userIndex = targetUser;
 	}
 };
