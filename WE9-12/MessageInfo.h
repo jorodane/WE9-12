@@ -77,11 +77,13 @@ public:
 class MessageInfo_Input : public MessageInfo
 {
 public:
-	InputType type;
+	InputType currentType;
 
 	MessageInfo_Input(InputType wantType, int targetUser)
 	{
-		type = wantType;
+		type = MessageType::Input;
+
+		currentType = wantType;
 		userIndex = targetUser;
 	}
 };
