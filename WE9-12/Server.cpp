@@ -86,7 +86,6 @@ void* SendThread(void* data)
 	int checkNumber;
 	while (true)
 	{
-		cout << "Looping.." << endl;
 		checkNumber = 0;
 		//유저 전체 돌아주기!
 		for (int i = 1; i < MAX_USER_NUMBER; i++)
@@ -94,6 +93,7 @@ void* SendThread(void* data)
 			//유저 있네!
 			if (userArray[i] != nullptr)
 			{
+				cout << "sended" << endl;
 				//보내보자!
 				userArray[i]->Send();
 
