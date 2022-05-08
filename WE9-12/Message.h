@@ -201,6 +201,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 		break;
 	case MessageType::Input:
 	{
+		cout << "Input Incomming" << endl;
 		MessageInfo_Input* inputInfo = (MessageInfo_Input*)info;
 		char* broadcastResult = new char[12];
 
