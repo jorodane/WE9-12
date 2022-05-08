@@ -206,13 +206,13 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 
 		byteConvertor.uShortInteger[0] = (short)MessageType::Input;
 		byteConvertor.uShortInteger[1] = 8;
-		for (int i = 0; i < 4; i++) broadcastResult[i] = byteConvertor[i];
+		for (int i = 0; i < 4; i++) broadcastResult[i] = byteConvertor.character[i];
 
 		byteConvertor.integer = inputInfo->userIndex;
-		for (int i = 0; i < 4; i++) broadcastResult[i + 4] = byteConvertor[i];
+		for (int i = 0; i < 4; i++) broadcastResult[i + 4] = byteConvertor.character[i];
 
 		byteConvertor.integer = (int)inputInfo->type;
-		for (int i = 0; i < 4; i++) broadcastResult[i + 8] = byteConvertor[i];
+		for (int i = 0; i < 4; i++) broadcastResult[i + 8] = byteConvertor.character[i];
 
 		BroadCastMessage(broadcastResult, 12);
 		delete[] broadcastResult;
