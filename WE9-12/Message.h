@@ -67,6 +67,8 @@ MessageInfo* ProcessMessage(char* input, int userIndex)
 	//메시지타입		길이
 	//[][]			[][]
 
+	cout << byteConvertor.integer << endl;
+
 	MessageInfo* result;
 	//메시지 타입에 따라서 내용 넣어주기!
 	switch ((MessageType)byteConvertor.shortInteger[0])
