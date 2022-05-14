@@ -18,7 +18,7 @@ void DebugMessage(char* message)
 	//뒤에 있는 애들을 몽땅 읽어오기!
 	for (int i = 0; i < length; i++)
 	{
-		cout << "[" << message[i + 4] << "]";
+		cout << "[" << (int)message[i + 4] << "]";
 	};
 
 	cout << endl;
