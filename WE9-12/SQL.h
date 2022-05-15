@@ -33,7 +33,7 @@ int SQLConnect()
 
 	cout << "MYSQL Connection Succeed" << endl;
 
-	cout << mysql_query(SQLConnection, "use login_info") << endl;
+	cout << mysql_query(SQLConnection, "use loginfo") << endl;
 
 	return 0;
 }
