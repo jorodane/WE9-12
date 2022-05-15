@@ -79,6 +79,7 @@ int StartServer(int currentFD);
 #include "User.h"
 #include "MessageInfo.h"
 #include "Message.h"
+#include "SQL.h"
 
 //유저들의 메시지를 보내는 스레드입니다!
 void* SendThread(void* data)
@@ -297,6 +298,13 @@ int StartServer(int currentFD)
 	if (pthread_create(&sendThread, NULL, SendThread, NULL) != 0)
 	{
 		cout << "Cannot Create Send Thread" << endl;
+		return -1;
+	};
+
+	//SQL연결까지 시도해봅시다!
+	if (SQLConnect() == -1)
+	{
+		//SQL연결은 안쪽에서 왜 안되었는지 이야기해줍니다! cout은 안할게요!
 		return -1;
 	};
 
