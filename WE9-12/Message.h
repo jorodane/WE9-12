@@ -172,7 +172,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 		MessageInfo_Login* loginInfo = (MessageInfo_Login*)info;
 
 		cout << "Someone Try Login! Name is " << loginInfo->name << "!!" << endl;
-		//           유저번호  성공여부
+		//           유저번호  성공여부 (로그인 성공 / 중복 로그인 / 신규 로그인)
 		//[][] [][]  [][][][] []
 		char sendResult[9] = { 0 };
 
@@ -184,22 +184,24 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 			sendResult[i] = byteConvertor.character[i];
 		};
 
+		sendResult[8] = userArray[fromFD]->LogIn(loginInfo->name);
+
 		//로그인 정보에서 이름을 받아와서 시도해봅니다!
-		if (userArray[fromFD]->LogIn(loginInfo->name))
+		switch (sendResult[8])
 		{
-			sendResult[8] = 1;
-			cout << "Login Succeed" << endl;
-		}
-		else
-		{
-			sendResult[8] = 0;
-			cout << "Login Failed" << endl;
+		case 0: cout << "Login Succeed"		<< endl; break;
+		case 1: cout << "Invalide Password" << endl; break;
+		case 2: cout << "Already Logined"	<< endl; break;
+		case 3: cout << "Non-Exist ID"		<< endl; break;
+		case 4: cout << "ID Not Fit In Form"<< endl; break;
+		default:cout << "Unknown Error"		<< endl; break;
 		};
+
 		//본인한테 성공 여부를 보내주는 것!
 		SendMessage(sendResult, 9, fromFD);
 
 		//로그인에 실패한 경우에는 다른 사람들한테 아무 말도 안해도 괜찮아요!
-		if (sendResult[8] == 0) break;
+		if (sendResult[8] != 0) break;
 
 		//다른 사람들한테 보내줄 내용!
 		char* broadcastResult;
