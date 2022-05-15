@@ -5,6 +5,22 @@
 #define SQL_ID		"root"
 #define SQL_PW		"password"
 
+/*
+create database login_info;
+use login_info;
+create table certification
+(
+	ID VARCHAR(24) PRIMARY KEY,
+	PW VARCHAR(24),
+	NAME VARCHAR(24)
+);
+insert into certification
+	(ID, PW, NAME)
+values  ("d","e","f");
+select * from certification where ID = "a";
+delete from certification where ID = "d";
+*/
+
 //지금 연결된 SQL입니다!
 MYSQL* SQLConnection;
 
