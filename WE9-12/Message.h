@@ -182,7 +182,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 		values[0] = "\"" + signupInfo->name + "\"";
 		values[1] = "\"" + signupInfo->password + "\"";
 		values[2] = "\"" + signupInfo->nicname + "\"";
-		SQLInsert("certification", columns, values);
+		SQLInsert("certification", 3, columns, 3, values);
 		break;
 	}
 	case MessageType::LogIn:

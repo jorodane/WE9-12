@@ -30,13 +30,13 @@ MYSQL_RES* SQLResponse;
 //검색을 해서 결과로 나온 줄을 여기에다가 둡시다!
 MYSQL_ROW resultRow;
 
-bool SQLInsert(string tableName, string columnNames[3], string values[3])
+bool SQLInsert(string tableName, int columnAmount, string* columnNames, int valueAmount, string* values)
 {
+	if (columnAmount <= 0) return false;
+	if (valueAmount <= 0) return false;
+
 	//insert into certification(ID, PW, NAME) values("d", "e", "f");
 	string queryString = "INSERT INTO " + tableName + "(";
-
-	int columnAmount = sizeof(columnNames) / sizeof(string);
-	if (columnAmount <= 0) return false;
 
 	for (int i = 0; i < columnAmount; i++)
 	{
@@ -47,9 +47,6 @@ bool SQLInsert(string tableName, string columnNames[3], string values[3])
 	};
 
 	queryString += ") VALUES(";
-
-	int valueAmount = sizeof(values) / sizeof(string);
-	if (valueAmount <= 0) return false;
 
 	//                 열의 개수만큼은 돌아야하니까!
 	for (int i = 0; i < columnAmount; i++)
