@@ -59,6 +59,7 @@ bool SQLInsert(string tableName, int columnAmount, string* columnNames, int valu
 
 	queryString += ");";
 
+	cout << queryString.c_str() << endl;
 	//그래서 실제로 쿼리를 해봅니다!
 	mysql_query(SQLConnection, queryString.c_str());
 
