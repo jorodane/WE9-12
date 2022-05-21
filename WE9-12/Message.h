@@ -109,6 +109,8 @@ MessageInfo* ProcessMessage(char* input, int userIndex)
 	case MessageType::EndOfLine:return nullptr;
 
 	case MessageType::LogIn:	result = new MessageInfo_Login(input, userIndex);
+		break;	
+	case MessageType::SignUp:	result = new MessageInfo_SignUp(input, userIndex);
 		break;
 	case MessageType::Chat:		result = new MessageInfo_Chat(input, userIndex);
 		break;
@@ -165,6 +167,13 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 
 		cout << "Message Send From " << userArray[fromFD]->GetName() << " : " << sendResult + 8 << endl;
 		delete sendResult;
+		break;
+	}
+	case MessageType::SignUp:
+	{
+		MessageInfo_SignUp* signupInfo = (MessageInfo_SignUp*)info;
+		cout << "Someone Try SignUp! Name is " << signupInfo->name << ", pw is " << signupInfo->password;
+		cout << ", nicname is " << signupInfo->nicname << endl;
 		break;
 	}
 	case MessageType::LogIn:
