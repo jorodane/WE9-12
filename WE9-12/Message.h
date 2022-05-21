@@ -174,6 +174,15 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 		MessageInfo_SignUp* signupInfo = (MessageInfo_SignUp*)info;
 		cout << "Someone Try SignUp! Name is " << signupInfo->name << ", pw is " << signupInfo->password;
 		cout << ", nicname is " << signupInfo->nicname << endl;
+		string columns[3];
+		columns[0] = "ID";
+		columns[1] = "PW";
+		columns[2] = "NAME";
+		string values[3];
+		values[0] = "\"" + signupInfo->name + "\"";
+		values[1] = "\"" + signupInfo->password + "\"";
+		values[2] = "\"" + signupInfo->nicname + "\"";
+		SQLInsert("certification", columns, values);
 		break;
 	}
 	case MessageType::LogIn:

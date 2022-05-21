@@ -30,6 +30,52 @@ MYSQL_RES* SQLResponse;
 //검색을 해서 결과로 나온 줄을 여기에다가 둡시다!
 MYSQL_ROW resultRow;
 
+bool SQLInsert(string tableName, string columnNames[3], string values[3])
+{
+	//insert into certification(ID, PW, NAME) values("d", "e", "f");
+	string queryString = "INSERT INTO " + tableName + "(";
+
+	int columnAmount = sizeof(columnNames) / sizeof(string);
+	if (columnAmount <= 0) return false;
+
+	for (int i = 0; i < columnAmount; i++)
+	{
+		queryString += columnNames[i];
+
+		//뒷 칸이 더 남았다 싶을 때에만 쉼표를 넣기!
+		if (i < columnAmount - 1) queryString += ", ";
+	};
+
+	queryString += ") VALUES(";
+
+	int valueAmount = sizeof(values) / sizeof(string);
+	if (valueAmount <= 0) return false;
+
+	//                 열의 개수만큼은 돌아야하니까!
+	for (int i = 0; i < columnAmount; i++)
+	{
+		if (i < valueAmount)	queryString += values[i];	//값이 있으면 그 값으로 넣기!
+		else					queryString += "\"\"";		//값이 없으면 그냥 "" 넣어주기!
+		//뒷 칸이 더 남았다 싶을 때에만 쉼표를 넣기!
+		if (i < columnAmount - 1) queryString += ", ";
+	};
+
+	queryString += ");";
+
+	//그래서 실제로 쿼리를 해봅니다!
+	mysql_query(SQLConnection, queryString);
+
+	//쿼리를 해서 나온 결과의 상태!
+	SQLResponse = mysql_store_result(SQLConnection);
+
+	//아.. 못가져왔구나..
+	if (SQLResponse == nullptr) return false;
+
+	//저희가 하나의 줄로 받아오도록 하면 됩니다!
+	//resultRow = mysql_fetch_row(SQLResponse);
+	return true;
+}
+
 //MYSQL에 실제로 연결하는 함수가 필요할 거에요!
 int SQLConnect()
 {
