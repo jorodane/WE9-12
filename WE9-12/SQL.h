@@ -63,7 +63,7 @@ bool SQLInsert(string tableName, string columnNames[3], string values[3])
 	queryString += ");";
 
 	//그래서 실제로 쿼리를 해봅니다!
-	mysql_query(SQLConnection, queryString);
+	mysql_query(SQLConnection, queryString.c_str());
 
 	//쿼리를 해서 나온 결과의 상태!
 	SQLResponse = mysql_store_result(SQLConnection);
