@@ -181,6 +181,7 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 		if (mysql_fetch_row(SQLResponse) != nullptr)
 		{
 			cout << signupInfo->name << " was already in Database" << endl;
+			break;
 		};
 
 		string columns[3];
