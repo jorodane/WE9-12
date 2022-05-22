@@ -32,7 +32,6 @@ MYSQL_ROW resultRow;
 
 bool SQLInsert(string tableName, int columnAmount, string* columnNames, int valueAmount, string* values)
 {
-	cout << "hello" << endl;
 	if (columnAmount <= 0) return false;
 	if (valueAmount <= 0) return false;
 
