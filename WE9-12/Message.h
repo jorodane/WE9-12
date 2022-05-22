@@ -177,28 +177,43 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 
 		string selectWhere = "ID = \"" + signupInfo->name + "\"";
 		SQLSelect("certification", "*", selectWhere);
+
 		resultRow = mysql_fetch_row(SQLResponse);
+		char sendResult[5];
+		byteConvertor.uShortInteger[0] = (unsigned short)MessageType::SignUp;
+		byteConvertor.uShortInteger[1] = 1;
+		for (int i = 0; i < 4; i++)
+		{
+			sendResult[i] = byteConvertor.character[i];
+		};
 		
 		//쿼리를 해보았는데 대상이 있네요!
 		if (resultRow != nullptr)
 		{
-			cout << resultRow[0] << "has Found" << endl;
-			cout << signupInfo->name << " was already in Database" << endl;
-			break;
-		};
-
-		string columns[3];
-		columns[0] = "ID";
-		columns[1] = "PW";
-		columns[2] = "NAME";
-		string values[3];
-		values[0] = "\"" + signupInfo->name + "\"";
-		values[1] = "\"" + signupInfo->password + "\"";
-		values[2] = "\"" + signupInfo->nicname + "\"";
-		if (SQLInsert("certification", 3, columns, 3, values))
+			cout << resultRow[0] << " was already in Database" << endl;
+			sendResult[4] = 0;
+		}
+		else
 		{
-			cout << signupInfo->name << " has Inserted to Database" << endl;
+			string columns[3];
+			columns[0] = "ID";
+			columns[1] = "PW";
+			columns[2] = "NAME";
+			string values[3];
+			values[0] = "\"" + signupInfo->name + "\"";
+			values[1] = "\"" + signupInfo->password + "\"";
+			values[2] = "\"" + signupInfo->nicname + "\"";
+			if (SQLInsert("certification", 3, columns, 3, values))
+			{
+				cout << signupInfo->name << " has Inserted to Database" << endl;
+				sendResult[4] = 1;
+			}
+			else
+			{
+				sendResult[4] = 0;
+			};
 		};
+		SendMessage(sendResult, 5, fromFD);
 		break;
 	}
 	case MessageType::LogIn:
