@@ -71,7 +71,7 @@ public:
 		if (isLogin) return 2;
 
 		//해당 아이디의 유저를 찾습니다!
-		string selectWhere = "ID = \"" + signupInfo->name + "\"";
+		string selectWhere = "ID = \"" + wantName + "\"";
 		SQLSelect("certification", "*", selectWhere);
 
 		//그래서 정보가 있는지 확인해보는 거구요!
