@@ -63,7 +63,7 @@ bool SQLInsert(string tableName, int columnAmount, string* columnNames, int valu
 	//그래서 실제로 쿼리를 해봅니다!
 	if (mysql_query(SQLConnection, queryString.c_str()) != 0)
 	{
-		cout << "Query Error Occured: " << mysql_error(&SQLConnection);
+		cout << "Query Error Occured: " << mysql_error(SQLConnection);
 	};
 
 	//쿼리를 해서 나온 결과의 상태!
