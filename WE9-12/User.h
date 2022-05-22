@@ -63,15 +63,39 @@ public:
 		};
 	}
 
-	int LogIn(string wantName)
+	int LogIn(string wantName, string wantPassword)
 	{
 		//여기에서는 저희가 중복 로그인이라고 하는 것을 방지해줄 필요가 있습니다!
 		//저희가 같은 이름의 사람이 들어온다거나 이 사람이 이미 로그인 되어있다고 한 상태에서
 		//다시 로그인을 시도했을 때 문제가 생겼다고 알려줄 수 있겠죠!
 		if (isLogin) return 2;
 
+		//해당 아이디의 유저를 찾습니다!
+		string selectWhere = "ID = \"" + signupInfo->name + "\"";
+		SQLSelect("certification", "*", selectWhere);
+
+		//그래서 정보가 있는지 확인해보는 거구요!
+		resultRow = mysql_fetch_row(SQLResponse);
+
+		//정보가 없어요!
+		if (resultRow == nullptr) return 3;
+
+		//제가 받은 비밀번호하고 데이터에 있던 비밀번호하고 비교를 하는 거에요!
+		if (resultRow[1] == wantPassword)
+		{
+			//닉네임을 그대로 가져오도록 합시다!
+			name = resultRow[2];
+			//아이디도 있고, 비밀번호도 맞으면 로그인 성공이지 뭐!
+			return 0;
+		}
+		else
+		{
+			//비번 틀렸는데요?
+			return 1;
+		};
+
 		//이름 설정에 실패했습니다!
-		if (!SetName(wantName)) return 4;
+		//if (!SetName(wantName)) return 4;
 
 		return 0;
 	};
