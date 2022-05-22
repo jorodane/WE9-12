@@ -73,7 +73,7 @@ bool SQLInsert(string tableName, int columnAmount, string* columnNames, int valu
 	if (SQLResponse == nullptr) return false;
 
 	//저희가 하나의 줄로 받아오도록 하면 됩니다!
-	//resultRow = mysql_fetch_row(SQLResponse);
+	resultRow = mysql_fetch_row(SQLResponse);
 	return true;
 }
 
