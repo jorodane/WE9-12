@@ -30,6 +30,37 @@ MYSQL_RES* SQLResponse;
 //검색을 해서 결과로 나온 줄을 여기에다가 둡시다!
 MYSQL_ROW resultRow;
 
+bool SQLQuery(string queryString)
+{
+	//그래서 실제로 쿼리를 해봅니다!
+	if (mysql_query(SQLConnection, queryString.c_str()) != 0)
+	{
+		cout << "Query Error Occured: " << mysql_error(SQLConnection);
+		return false;
+	};
+
+	//쿼리를 해서 나온 결과의 상태!
+	SQLResponse = mysql_store_result(SQLConnection);
+
+	//아.. 못가져왔구나..
+	if (SQLResponse == nullptr) return false;
+
+	//저희가 하나의 줄로 받아오도록 하면 됩니다!
+	//resultRow = mysql_fetch_row(SQLResponse);
+	return true;
+};
+
+bool SQLSelect(string tableName, string wantColumn, string conditionWhere)
+{
+	//    원하는 열     테이블            조건
+	//SELECT * FROM certification WHERE ID = "a";
+	string queryString = "SELECT " + wantColumn;
+	queryString += " FROM " + tableName;
+	queryString += " WHERE " + conditionWhere + ";";
+
+	return SQLQuery(queryString);
+}
+
 bool SQLInsert(string tableName, int columnAmount, string* columnNames, int valueAmount, string* values)
 {
 	if (columnAmount <= 0) return false;
@@ -59,22 +90,7 @@ bool SQLInsert(string tableName, int columnAmount, string* columnNames, int valu
 
 	queryString += ");";
 
-	cout << queryString.c_str() << endl;
-	//그래서 실제로 쿼리를 해봅니다!
-	if (mysql_query(SQLConnection, queryString.c_str()) != 0)
-	{
-		cout << "Query Error Occured: " << mysql_error(SQLConnection);
-	};
-
-	//쿼리를 해서 나온 결과의 상태!
-	SQLResponse = mysql_store_result(SQLConnection);
-
-	//아.. 못가져왔구나..
-	if (SQLResponse == nullptr) return false;
-
-	//저희가 하나의 줄로 받아오도록 하면 됩니다!
-	//resultRow = mysql_fetch_row(SQLResponse);
-	return true;
+	return SQLQuery(queryString);
 }
 
 //MYSQL에 실제로 연결하는 함수가 필요할 거에요!

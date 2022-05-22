@@ -174,6 +174,13 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 		MessageInfo_SignUp* signupInfo = (MessageInfo_SignUp*)info;
 		cout << "Someone Try SignUp! Name is " << signupInfo->name << ", pw is " << signupInfo->password;
 		cout << ", nicname is " << signupInfo->nicname << endl;
+
+		string selectWhere = "ID = \"" + signupInfo->name + "\"";
+		if (SQLSelect("certification", "*", selectWhere))
+		{
+			cout << signupInfo->name << " was already in Database" << endl;
+		};
+
 		string columns[3];
 		columns[0] = "ID";
 		columns[1] = "PW";
@@ -182,7 +189,10 @@ int TranslateMessage(int fromFD, char* message, int messageLength, MessageInfo* 
 		values[0] = "\"" + signupInfo->name + "\"";
 		values[1] = "\"" + signupInfo->password + "\"";
 		values[2] = "\"" + signupInfo->nicname + "\"";
-		SQLInsert("certification", 3, columns, 3, values);
+		if (SQLInsert("certification", 3, columns, 3, values))
+		{
+			cout << signupInfo->name << " has Inserted to Database" << endl;
+		};
 		break;
 	}
 	case MessageType::LogIn:
