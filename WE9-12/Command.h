@@ -72,6 +72,7 @@ void* CommandThread(void* data)
 			}
 			else //스페이스가 아니라면! 단어에다가 글자를 추가할 겁니다!
 			{
+				cout << currentWord;
 				currentWord += input[i];
 			};
 		};
