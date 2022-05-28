@@ -301,18 +301,6 @@ int StartServer(int currentFD)
 		return -1;
 	};
 
-	//스레드를 만들어봅니다!
-	if (pthread_create(&sendThread, NULL, SendThread, NULL) != 0)
-	{
-		cout << "Cannot Create Send Thread" << endl;
-		return -1;
-	};
-	if (pthread_create(&commandThread, NULL, CommandThread, NULL) != 0)
-	{
-		cout << "Cannot Create Command Thread" << endl;
-		return -1;
-	};
-
 	//SQL연결까지 시도해봅시다!
 	if (SQLConnect() == -1)
 	{
@@ -322,6 +310,20 @@ int StartServer(int currentFD)
 
 	//서버가 정상적으로 작동되었다는 것을 표시!
 	isRunning = true;
+
+	//스레드를 만들어봅니다!
+	if (pthread_create(&sendThread, NULL, SendThread, NULL) != 0)
+	{
+		cout << "Cannot Create Send Thread" << endl;
+		isRunning = false;
+		return -1;
+	};
+	if (pthread_create(&commandThread, NULL, CommandThread, NULL) != 0)
+	{
+		cout << "Cannot Create Command Thread" << endl;
+		isRunning = false;
+		return -1;
+	};
 
 	cout << "Server is On the way" << endl;
 
