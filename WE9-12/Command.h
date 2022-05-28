@@ -77,4 +77,6 @@ void* CommandThread(void* data)
 		//글자를 모두 파악했으니 실제로 커맨드를 실행합니다!
 		ExecuteCommand();
 	};
+
+	return nullptr;
 }

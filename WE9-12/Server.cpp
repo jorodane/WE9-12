@@ -110,6 +110,7 @@ void* SendThread(void* data)
 			};
 		};
 	};
+	return nullptr;
 }
 
 int main()
@@ -318,6 +319,9 @@ int StartServer(int currentFD)
 		//SQL연결은 안쪽에서 왜 안되었는지 이야기해줍니다! cout은 안할게요!
 		return -1;
 	};
+
+	//서버가 정상적으로 작동되었다는 것을 표시!
+	isRunning = true;
 
 	cout << "Server is On the way" << endl;
 
