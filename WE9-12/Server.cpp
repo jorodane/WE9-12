@@ -306,7 +306,7 @@ int StartServer(int currentFD)
 		cout << "Cannot Create Send Thread" << endl;
 		return -1;
 	};
-	if (pthread_create(&sendThread, NULL, CommandThread, NULL) != 0)
+	if (pthread_create(&commandThread, NULL, CommandThread, NULL) != 0)
 	{
 		cout << "Cannot Create Command Thread" << endl;
 		return -1;

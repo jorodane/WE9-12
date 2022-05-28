@@ -15,7 +15,7 @@ void* CommandThread(void* data)
 			};
 		};
 
-		switch (input)
+		switch (input.c_str())
 		{
 		case "QUIT":
 		case "END":
