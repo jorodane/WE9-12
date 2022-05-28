@@ -112,7 +112,7 @@ int SQLConnect()
 		//없으면 만들면 되지!
 		mysql_query(SQLConnection, "CREATE DATABASE login_info");
 		mysql_query(SQLConnection, "USE login_info");
-		mysql_query(SQLConnection, "CREATE TABLE UserData(ID VARCHAR(24) PRIMARY KEY, PW VARCHAR(24), NAME VARCHAR(24))");
+		mysql_query(SQLConnection, "CREATE TABLE UserData(ID VARCHAR(24) PRIMARY KEY, PW CHAR(64) NOT NULL, NAME VARCHAR(24) NOT NULL)");
 
 		cout << "Table Created" << endl;
 	};

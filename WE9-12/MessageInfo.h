@@ -40,8 +40,7 @@ enum class InputType
 
 string SaveAsHashcode(string input)
 {
-	cout << sha256(input) << endl;
-	return input;
+	return sha256(input);
 }
 
 
