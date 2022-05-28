@@ -57,7 +57,7 @@ void* CommandThread(void* data)
 			if (input[i] >= 'a' || input[i] <= 'z')
 			{
 				//소문자를 대문자로 만들어줍시다!
-				input[i] -= 'A' - 'a';
+				input[i] += 'A' - 'a';
 			};
 		};
 
@@ -72,7 +72,6 @@ void* CommandThread(void* data)
 			}
 			else //스페이스가 아니라면! 단어에다가 글자를 추가할 겁니다!
 			{
-				cout << currentWord;
 				currentWord += input[i];
 			};
 		};
