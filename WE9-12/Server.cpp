@@ -280,7 +280,7 @@ int main()
 		current_uSec = currentTime.tv_usec - lastCheck_uSec;
 		//마이너스가 되어버렸어요 ㅜㅜ
 		//이 때에 저희는 마이크로세컨드의 최대값 1000000을 더해주면! 조금 더 나아질 거에요!
-		if (current_uSec < 0) current_uSec + 1000000;
+		if (current_uSec < 0) current_uSec += 1000000;
 
 		totalTime += current_uSec / 1000000.0;
 
