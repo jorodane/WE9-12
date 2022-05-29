@@ -26,7 +26,7 @@
 
 //                            초/밀리/마이크로
 //1초에 얼마나 보내는지! uSec은 1/1000/1000
-#define SEND_PER_SECONDS 1000000 / SEND_TICK_RATE
+#define SEND_PER_SECONDS 1.0 / SEND_TICK_RATE
 
 #include <iostream>
 
@@ -72,6 +72,9 @@ pthread_t commandThread;
 
 //현재 유저 수
 unsigned int currentUserNumber = 0;
+
+//서버가 구동을 시작한지 몇 초나 지났는가?
+double totalTime = 0;
 
 //서버가 지금 돌고 있는지 여부
 bool isRunning = false;
@@ -266,9 +269,15 @@ int main()
 	//그래서 서버가 일을 시작하자마자 닫아버릴 수 있어요!
 	while (isRunning)
 	{
+		//시간을 받아옵시다!
 		gettimeofday(&currentTime, NULL);
 
-		cout << currentTime.tv_usec - lastCheck_uSec << endl;
+		//지난 시간은 이 정도 돼요!
+		current_uSec = currentTime.tv_usec - lastCheck_uSec;
+
+		totalTime += current_uSec / 1000000.0;
+
+		cout << current_uSec << endl;
 
 		lastCheck_uSec = currentTime.tv_usec;
 	};
