@@ -22,7 +22,7 @@
 #define MAX_USER_NUMBER 100
 
 //메시지를 보내는데 일정한 간격을 두고 보냅니다!
-#define SEND_TICK_RATE 30
+#define SEND_TICK_RATE 2
 
 //                            초/밀리/마이크로
 //1초에 얼마나 보내는지! uSec은 1/1000/1000
