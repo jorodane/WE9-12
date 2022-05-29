@@ -267,7 +267,10 @@ int main()
 	while (isRunning)
 	{
 		gettimeofday(&currentTime, NULL);
-		cout << currentTime.tv_usec << endl;
+
+		lastCheck_uSec = currentTime.tv_usec;
+
+		cout << currentTime.tv_usec - lastCheck_uSec << endl;
 	};
 
 	//¸®½¼ ¼ÒÄÏ ´Ý°í
