@@ -303,7 +303,7 @@ int main()
 	};
 
 	//닫혔으니까! poll돌리고 있는 애한테도 같이 알려줍시다!
-	write(ListenFD.fd, nullptr, 1);
+	write(ListenFD.fd, " ", 1);
 
 	//리슨 소켓 닫고
 	close(ListenFD.fd);
