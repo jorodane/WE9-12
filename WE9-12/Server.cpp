@@ -266,6 +266,7 @@ int main()
 	//그래서 서버가 일을 시작하자마자 닫아버릴 수 있어요!
 	while (isRunning)
 	{
+		gettimeofday(&currentTime, NULL);
 		cout << currentTime.tv_usec << endl;
 	};
 
