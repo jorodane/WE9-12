@@ -312,14 +312,13 @@ int main()
 	for (int i = 0; i < MAX_USER_NUMBER; i++)
 	{
 		//엇.. 누가 있어? 닫아!
-		if (pollFDArray[i].fd != -1) close(pollFDArray[i].fd);
+		//if (pollFDArray[i].fd != -1) 
+		close(pollFDArray[i].fd);
 	};
 
 	//두 개의 쓰레드를 전부 꺼줍니다!
 	void* threadResult;
 	pthread_cancel(recvThread);
-	//pthread_join(recvThread, &threadResult);
-
 	pthread_join(sendThread, &threadResult);
 	pthread_join(commandThread, &threadResult);
 
