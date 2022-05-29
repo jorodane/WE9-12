@@ -302,7 +302,6 @@ int main()
 		lastCheck_uSec = currentTime.tv_usec;
 	};
 
-	cout << "is end" << endl;
 
 	//닫혔으니까! poll돌리고 있는 애한테도 같이 알려줍시다!
 	write(ListenFD.fd, " ", 1);
@@ -321,6 +320,8 @@ int main()
 	pthread_join(recvThread, &threadResult);
 	pthread_join(sendThread, &threadResult);
 	pthread_join(commandThread, &threadResult);
+	cout << "is end" << endl;
+
 	return -4;
 }
 
