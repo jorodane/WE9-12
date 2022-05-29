@@ -22,7 +22,7 @@
 #define MAX_USER_NUMBER 100
 
 //메시지를 보내는데 일정한 간격을 두고 보냅니다!
-#define SEND_TICK_RATE 2
+#define SEND_TICK_RATE 30
 
 //                            초/밀리/마이크로
 //1초에 얼마나 보내는지! uSec은 1/1000/1000
@@ -107,7 +107,7 @@ void* ReceiveThread(void* data)
 		socklen_t addressSize;
 
 		//누가 부르던데요? 0이면 아무도 대답안했다! 15라고 하면, 15명이 부른다!
-		if (result > 0)
+		if (isRunning && result > 0)
 		{
 			//리슨 소켓에 반응 확인!
 			//누군가 접속을 시도하고 있습니다!
@@ -223,8 +223,6 @@ void* SendThread(void* data)
 			continue; //자 나가자~
 		};
 
-		//여기로 넘어왔다는 것은! 보낼 준비가 되었다는 거니까!
-		cout << "Sending..." << endl;
 		//보냈으니까 시간을 적어주면 될 거에요!
 		lastSendTime = totalTime;
 
