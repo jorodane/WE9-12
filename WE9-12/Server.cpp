@@ -302,6 +302,9 @@ int main()
 		lastCheck_uSec = currentTime.tv_usec;
 	};
 
+	//닫혔으니까! poll돌리고 있는 애한테도 같이 알려줍시다!
+	write(ListenFD.fd, nullptr, 0);
+
 	//리슨 소켓 닫고
 	close(ListenFD.fd);
 
