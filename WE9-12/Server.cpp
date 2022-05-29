@@ -273,7 +273,14 @@ int main()
 		gettimeofday(&currentTime, NULL);
 
 		//지난 시간은 이 정도 돼요!
+		//마지막으로 체크했을 때! 999999 였다라고 생각을 해봅시다!
+		//마이크로세컨드는 1000000이 채워졌을 때! 세컨드로 넘어갑니다! 1초죠?
+		//1초로 넘어가고 나면 마이크로 세컨드는 0이 됩니다! 
+		//                               0 - 999999
 		current_uSec = currentTime.tv_usec - lastCheck_uSec;
+		//마이너스가 되어버렸어요 ㅜㅜ
+		//이 때에 저희는 마이크로세컨드의 최대값 1000000을 더해주면! 조금 더 나아질 거에요!
+		if (current_uSec < 0) current_uSec + 1000000;
 
 		totalTime += current_uSec / 1000000.0;
 
