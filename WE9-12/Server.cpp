@@ -315,12 +315,12 @@ int main()
 		if (pollFDArray[i].fd != -1) close(pollFDArray[i].fd);
 	};
 
+	cout << "is end" << endl;
 	//두 개의 쓰레드를 전부 꺼줍니다!
 	void* threadResult;
 	pthread_join(recvThread, &threadResult);
 	pthread_join(sendThread, &threadResult);
 	pthread_join(commandThread, &threadResult);
-	cout << "is end" << endl;
 
 	return -4;
 }
