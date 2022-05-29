@@ -159,17 +159,17 @@ void* ReceiveThread(void* data)
 				//대상이 전달해준 반응
 				switch (pollFDArray[i].revents)
 				{
-					//반응 없음!
+				//반응 없음!
 				case 0:
 				{
 					break;
 				}//Switch문 안에 변수나 그런 걸 만들 때에 중괄호를 달아주셔야 해요!
 
-					//반응 있음!
+				//반응 있음!
 				case POLLIN:
 				{
 					//무슨 반응이었는지를 확인해봐야겠죠!
-					//                         읽기 버퍼            연결 해제 요청!
+					//                          읽기 버퍼         연결 해제 요청!
 					if (read(pollFDArray[i].fd, buffRecv, MAX_BUFFER_SIZE) < 1)
 					{
 						//꺼달라는데 뭐 ㅎ
@@ -306,17 +306,13 @@ int main()
 	//닫혔으니까! poll돌리고 있는 애한테도 같이 알려줍시다!
 	write(ListenFD.fd, " ", 1);
 
-	//리슨 소켓 닫고
-	//close(ListenFD.fd);
-
+	//전체 소켓을 닫아주기!
 	for (int i = 0; i < MAX_USER_NUMBER; i++)
 	{
-		//엇.. 누가 있어? 닫아!
 		if (pollFDArray[i].fd != -1)
 		{
 			//강제종료!   현재 소켓을       읽기   쓰기
 			shutdown(pollFDArray[i].fd, SHUT_RDWR);
-			close(pollFDArray[i].fd);
 		};
 	};
 
