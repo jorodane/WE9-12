@@ -307,13 +307,17 @@ int main()
 	write(ListenFD.fd, " ", 1);
 
 	//리슨 소켓 닫고
-	close(ListenFD.fd);
+	//close(ListenFD.fd);
 
 	for (int i = 0; i < MAX_USER_NUMBER; i++)
 	{
 		//엇.. 누가 있어? 닫아!
-		//if (pollFDArray[i].fd != -1) 
-		close(pollFDArray[i].fd);
+		if (pollFDArray[i].fd != -1)
+		{
+			//강제종료!   현재 소켓을       읽기   쓰기
+			shutdown(pollFDArray[i].fd, SHUT_RDWR);
+			close(pollFDArray[i].fd);
+		};
 	};
 
 	//두 개의 쓰레드를 전부 꺼줍니다!
