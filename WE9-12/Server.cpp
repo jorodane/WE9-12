@@ -268,9 +268,9 @@ int main()
 	{
 		gettimeofday(&currentTime, NULL);
 
-		lastCheck_uSec = currentTime.tv_usec;
-
 		cout << currentTime.tv_usec - lastCheck_uSec << endl;
+
+		lastCheck_uSec = currentTime.tv_usec;
 	};
 
 	//¸®½¼ ¼ÒÄÏ ´Ý°í
